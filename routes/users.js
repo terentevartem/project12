@@ -1,6 +1,10 @@
 const routerUsers = require('express').Router();
 const users = require('../data/users.json');
 
+routerUsers.get('/users', (req, res) => {
+  res.send(users);
+});
+
 routerUsers.get('/users/:id', (req, res) => {
   const { id } = req.params;
 
@@ -10,10 +14,6 @@ routerUsers.get('/users/:id', (req, res) => {
   }
 
   res.send(users[id]);
-});
-
-routerUsers.get('/users', (req, res) => {
-  res.send(users);
 });
 
 module.exports = routerUsers;
