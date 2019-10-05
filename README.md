@@ -1,5 +1,3 @@
-# https://terentevartem.github.io/project12/
-
 Yandex Praktikum
 
 Проектная работа 12
