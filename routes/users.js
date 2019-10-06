@@ -7,13 +7,14 @@ routerUsers.get('/users', (req, res) => {
 
 routerUsers.get('/users/:id', (req, res) => {
   const { id } = req.params;
-
-  if (!users[id]) {
-    res.send({ message: 'Такого пользователя нет' });
-    return;
+  for (let i = 0; i < users.length; i += 1) {
+    if (users[i]._id === id) {
+      res.send(users[i]);
+      return;
+    }
   }
 
-  res.send(users[id]);
+  res.status(404).send({ message: 'Нет пользователя с таким id' });
 });
 
 module.exports = routerUsers;
