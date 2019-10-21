@@ -12,16 +12,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   req.user = {
-    _id: '5dab52c6856d039c9475a7f6'
+    _id: '5dab52c6856d039c9475a7f6',
   };
 
   next();
 });
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
 });
 
 app.use('/', routerCards);
@@ -33,5 +33,5 @@ app.use('*', function(req, res) {
 });
 
 app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`)
+  console.log(`App listening on port ${PORT}`)
 })
