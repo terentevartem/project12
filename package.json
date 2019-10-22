@@ -1,28 +1,35 @@
 {
-  "name": "project12",
+  "name": "project13",
   "version": "1.0.0",
-  "description": "",
-  "main": "./app.js",
+  "description": "MongoDB",
+  "main": "app.js",
+  "module": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
-  "author": "",
+  "author": "Terentev",
   "license": "ISC",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.3.2",
-    "@typescript-eslint/parser": "^2.3.2",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^1.16.0",
-    "eslint-plugin-react": "^7.16.0",
-    "gh-pages": "^2.1.1",
-    "nodemon": "^1.19.3"
-  },
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "esm": "^3.2.25",
     "express": "^4.17.1",
-    "mongoose": "^5.7.6",
-    "mongoose-type-url": "^1.0.6"
-  }
+    "inherits": "^2.0.4",
+    "mongoose": "^5.7.3",
+    "mongoose-type-url": "^1.0.6",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terentevartem/project12.git"
+  },
+  "bugs": {
+    "url": "https://github.com/terentevartem/project12/issues"
+  },
+  "homepage": "https://github.com/terentevartem/project12#readme"
 }
