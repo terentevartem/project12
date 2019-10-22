@@ -1,19 +1,8 @@
 const routerUsers = require('express').Router();
-const users = require('../data/users.json');
+const { getUsers, createUser, findUserById } = require('../controllers/users');
 
-routerUsers.get('/users', (req, res) => {
-  res.send(users);
-});
-
-routerUsers.get('/users/:id', (req, res) => {
-  const { id } = req.params;
-
-  if (!users[id]) {
-    res.send({ message: 'Такого пользователя нет' });
-    return;
-  }
-
-  res.send(users[id]);
-});
+routerUsers.get('/users', getUsers);
+routerUsers.get('/users/:id', findUserById);
+routerUsers.post('/users', createUser);
 
 module.exports = routerUsers;
