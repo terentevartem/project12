@@ -1,9 +1,8 @@
 {
-  "name": "project13",
+  "name": "project14",
   "version": "1.0.0",
-  "description": "MongoDB",
+  "description": "Authentication and authorization",
   "main": "app.js",
-  "module": "main.js",
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js"
@@ -11,25 +10,22 @@
   "author": "Terentev",
   "license": "ISC",
   "dependencies": {
-    "esm": "^3.2.25",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "inherits": "^2.0.4",
-    "mongoose": "^5.7.3",
+    "helmet": "^3.21.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.6",
     "mongoose-type-url": "^1.0.6",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "validator": "^11.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.4.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-vue": "^5.2.3",
     "nodemon": "^1.19.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/terentevartem/project12.git"
-  },
-  "bugs": {
-    "url": "https://github.com/terentevartem/project12/issues"
-  },
-  "homepage": "https://github.com/terentevartem/project12#readme"
+  }
 }
