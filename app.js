@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const routerCards = require('./routes/cards');
 const routerUsers = require('./routes/users');
 const { createUser, login } = require('./controllers/users');
@@ -8,7 +10,13 @@ const auth = require('./middlewares/auth');
 
 const app = express();
 const { PORT = 3000 } = process.env;
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
 
+app.use(limiter);
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
