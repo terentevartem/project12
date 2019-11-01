@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: mongoose.SchemaTypes.Url,
     required: true,
+    validate: {
+      validator: (v) => validate.isURL(v),
+      message: 'Неправильный формат URL',
+    },
   },
   email: {
     type: String,

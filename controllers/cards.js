@@ -25,7 +25,7 @@ module.exports.deleteCard = (req, res) => {
       if (!card) return Promise.reject(new Error('Такой карточки не существует'));
       if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) return Promise.reject(new Error('Вы не можете удалять чужие карточки!'));
       Card.remove(card)
-        .then((cardToDelete) => res.send(cardToDelete !== null ? { data: card } : { data: 'Такой карточки не существует' }))
+        .then((card) => res.send({ data: card }))
         .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
     })
     .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
