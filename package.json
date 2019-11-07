@@ -1,28 +1,32 @@
 {
-  "name": "project12",
+  "name": "project14",
   "version": "1.0.0",
-  "description": "",
-  "main": "./app.js",
+  "description": "Authentication and authorization",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
-  "author": "",
+  "author": "Terentev",
   "license": "ISC",
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.3.2",
-    "@typescript-eslint/parser": "^2.3.2",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^1.16.0",
-    "eslint-plugin-react": "^7.16.0",
-    "gh-pages": "^2.1.1",
-    "nodemon": "^1.19.3"
-  },
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.0.0",
+    "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.6",
-    "mongoose-type-url": "^1.0.6"
+    "mongoose-type-url": "^1.0.6",
+    "path": "^0.12.7",
+    "validator": "^11.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-vue": "^5.2.3",
+    "nodemon": "^1.19.2"
   }
 }

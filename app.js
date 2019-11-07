@@ -1,22 +1,24 @@
 const express = require('express');
-const { PORT = 3000 } = process.env;
 const path = require('path');
+const mongoose = require('mongoose');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const routerCards = require('./routes/cards');
 const routerUsers = require('./routes/users');
-const mongoose = require('mongoose');
+const { createUser, login } = require('./controllers/users');
+const auth = require('./middlewares/auth');
+
 const app = express();
-const bodyParser = require('body-parser');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use((req, res, next) => {
-  req.user = {
-    _id: '5dab52c6856d039c9475a7f6',
-  };
-
-  next();
+const { PORT = 3000 } = process.env;
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
 });
+
+app.use(limiter);
+app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -24,14 +26,17 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useFindAndModify: false,
 });
 
-app.use('/', routerCards);
-app.use('/', routerUsers);
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.static(path.join(__dirname, 'public')))
-app.use('*', function(req, res) {
-  res.send({ message: "Запрашиваемый ресурс не найден" });
-});
+app.post('/signin', login);
+app.post('/signup', createUser);
+
+app.use(auth);
+
+app.use('/cards', routerCards);
+app.use('/users', routerUsers);
+app.get('*', (req, res) => res.status(404).send({ message: 'Запрашиваемый ресурс не найден' }));
 
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`)
-})
+  console.log(`App listening on port ${PORT}`);
+});
