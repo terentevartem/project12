@@ -11,16 +11,19 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "celebrate": "^10.1.0",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.0.0",
+    "express-winston": "^4.0.1",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.7.6",
     "mongoose-type-url": "^1.0.6",
     "path": "^0.12.7",
-    "validator": "^11.1.0"
+    "validator": "^11.1.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "eslint": "^6.6.0",

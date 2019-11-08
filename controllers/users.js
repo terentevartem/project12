@@ -1,15 +1,22 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { JWT_SECRET } = require('../node_env.js');
+const NotFoundError = require('../errors/not-found-err');
+const BadRequestError = require('../errors/bad-request-err');
+const UnauthorizedError = require('../errors/unauthorized-err');
 
-module.exports.getUsers = (req, res) => {
+const { NODE_ENV, JWT_SECRET } = process.env;
+
+module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(() => {
+      throw new BadRequestError('Неверный запрос');
+    })
+    .catch(next);
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const {
     name,
     about,
@@ -18,40 +25,48 @@ module.exports.createUser = (req, res) => {
   } = req.body;
 
   bcrypt.hash(req.body.password, 10)
-    .then((hash) => User.create({
-      name,
-      about,
-      avatar,
-      email,
-      password: hash,
-    }))
+    .then((hash) => User
+      .create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      }))
     .then((user) => {
       res.status(201).send({
         _id: user._id,
         email: user.email,
       });
     })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
+    .catch(() => {
+      throw new BadRequestError('Неверный запрос');
+    })
+    .catch(next);
 };
 
-module.exports.findUserById = (req, res, next) => {
-  User.findById(req.params.id)
-    .then((user) => (user ? res.send({ data: user }) : next()))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
-};
+module.exports.findUserById = (req, res, next) => User
+  .findById(req.params.id)
+  .then((user) => {
+    if (!user) {
+      throw new NotFoundError('Нет пользователя с таким id');
+    }
 
-module.exports.login = (req, res) => {
+    res.send(user);
+  })
+  .catch(next);
+
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
       res.send({
-        token: jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '7d' }),
+        token: jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' }),
       });
     })
-    .catch((err) => {
-      res.status(401).send({ message: err.message });
-    });
+    .catch(() => {
+      throw new UnauthorizedError('Неправильные почта или пароль');
+    })
+    .catch(next);
 };

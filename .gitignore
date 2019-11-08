@@ -13,3 +13,4 @@ package-lock.json
 # Optional REPL history
 .DS_Store
 .idea
+*.log

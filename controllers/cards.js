@@ -1,12 +1,16 @@
 const Card = require('../models/card');
+const BadRequestError = require('../errors/bad-request-err');
 
-module.exports.getCards = (req, res) => {
+module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(() => {
+      throw new BadRequestError('Неверный запрос');
+    })
+    .catch(next);
 };
 
-module.exports.createCard = (req, res) => {
+module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({
@@ -16,17 +20,26 @@ module.exports.createCard = (req, res) => {
     likes: req.user._id,
   })
     .then((card) => res.send({ data: card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch(() => {
+      throw new BadRequestError('Неверный запрос');
+    })
+    .catch(next);
 };
 
-module.exports.deleteCard = (req, res) => {
+module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.id)
     .then((card) => {
       if (!card) return Promise.reject(new Error('Такой карточки не существует'));
       if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) return Promise.reject(new Error('Вы не можете удалять чужие карточки!'));
       Card.remove(card)
         .then((card) => res.send({ data: card }))
-        .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+        .catch(() => {
+          throw new BadRequestError('Неверный запрос');
+        })
+        .catch(next);
     })
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch(() => {
+      throw new BadRequestError('Неверный запрос');
+    })
+    .catch(next);
 };
