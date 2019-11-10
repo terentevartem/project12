@@ -28,10 +28,12 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.id)
+    // eslint-disable-next-line consistent-return
     .then((card) => {
       if (!card) return Promise.reject(new Error('Такой карточки не существует'));
       if (JSON.stringify(card.owner) !== JSON.stringify(req.user._id)) return Promise.reject(new Error('Вы не можете удалять чужие карточки!'));
       Card.remove(card)
+        // eslint-disable-next-line no-shadow
         .then((card) => res.send({ data: card }))
         .catch(() => {
           throw new BadRequestError('Неверный запрос');
